@@ -1,6 +1,6 @@
 <script setup>
 import AuthHeader from '../components/auth/AuthHeader.vue';
-import LoginForm from '../components/auth/LoginForm.vue';
+import AuthContent from '../components/auth/AuthContent.vue';
 </script>
 
 <template>
@@ -11,7 +11,7 @@ import LoginForm from '../components/auth/LoginForm.vue';
         <div class="flex flex-col justify-center items-center grow h-full">
             <div class="flex flex-col justify-center items-start gap-5">
                 <auth-header class="hidden sm:flex" color="full" />
-                <login-form />
+                <auth-content />
             </div>
         </div>
     </div>
