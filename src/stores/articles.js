@@ -50,6 +50,27 @@ export const useArticleStore = defineStore('articles', () => {
             return 'Ha ocurrido un error inesperado.';
         }
     }
+    async function createArticle(title = '', content = '') {
+        const userStore = useUserStore();
 
-    return { articles, metadata, queryArticles, searchArticles };
+        try {
+            const result = await instance.post(
+                '/v1/articles',
+                { title, content },
+                { headers: { Authorization: `Bearer ${userStore.user.token}` } }
+            );
+            console.log(result);
+            if (result.status === 201) {
+                return { state: 'ok', message: 'Se ha registrado el artículo correctamente' };
+            }
+            return { state: 'error', message: 'Algo ha pasado con nuestro servicios. Inténtelo nuevamnete.' };
+        } catch (e) {
+            if (e.code === `ERR_BAD_REQUEST`) {
+                return { state: 'error', message: e.reponse.data.message };
+            }
+            return { state: 'error', message: 'Ha ocurrido un error inesperado.' };
+        }
+    }
+
+    return { articles, metadata, queryArticles, searchArticles, createArticle };
 });
