@@ -1,17 +1,18 @@
 import { defineStore } from 'pinia';
+import { useCookies } from '@vueuse/integrations/useCookies';
 
 import { instance } from '../api/instance';
-import { useLocalStorage } from '../composables/storage';
 
 export const useUserStore = defineStore('user', () => {
-    const user = useLocalStorage('user');
+    const cookies = useCookies([ 'user' ], { autoUpdateDependencies: true });
+    const user = cookies.get('user');
 
     async function login(email, password) {
-        if (user === null) return;
+        if (user !== null && user !== undefined) return;
 
         try {
             const result = await instance.post('/auth/login', { email, password });
-            user.value = {...result.data.data, token: result.data.token};
+            cookies.set('user', {...result.data.data, token: result.data.token});
             return { state: result.data.status ? 'ok' : 'error', message: result.data.message };
         } catch (e) {
             if (e.code === 'ERR_BAD_REQUEST') {
@@ -23,7 +24,7 @@ export const useUserStore = defineStore('user', () => {
     async function register(name, email, password) {
         try {
             const result = await instance.post('/auth/register', { name, email, password });
-            user.value = {...result.data.data, token: result.data.token};
+            cookies.set('user', {...result.data.data, token: result.data.token});
             return { state: result.data.status ? 'ok' : 'error', message: result.data.message };
         }
         catch (e) {

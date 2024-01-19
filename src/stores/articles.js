@@ -8,12 +8,22 @@ export const useArticleStore = defineStore('articles', () => {
     const articles = ref([]);
     const metadata = ref(null);
 
-    const userArticles = computed(() => {
+    async function queryArticles(params = {}, page = 1) {
         const userStore = useUserStore();
-        return articles.value.filter(article => article.createdBy === userStore.user.id);
-    });
 
-    async function searchArticles(searchText) {
+        try {
+            const result = await instance.get('/v1/articles', {
+                headers: { Authorization: `Bearer ${userStore.user.token}` },
+                params,
+            });
+            articles.value = result.data.data;
+            metadata.value = result.data.meta;
+            return result.data.message;
+        } catch(e) {
+            return 'Ha ocurrido un error inesperado.';
+        }
+    }
+    async function searchArticles(searchText, page = 1) {
         const normalizedText = searchText
             ? searchText.replaceAll(/[áéíóúÁÉÍÓÚàèìùÀÈÌÒÙäëïöüÄËÏÖÜ]+/g, '_')
             : undefined;
@@ -27,13 +37,13 @@ export const useArticleStore = defineStore('articles', () => {
                     ? {
                         'title[like]': `%${normalizedText}%`,
                         'content[like]': `%${normalizedText}%`,
+                        mode: 'or', 
+                        page,
                     }
-                    : undefined,
+                    : { page },
             });
-            if (result.status === 200) {
-                articles.value = result.data.data;
-                metadata.value = result.data.meta;
-            }
+            articles.value = result.data.data;
+            metadata.value = result.data.meta;
             return result.data.message;
         }
         catch (e) {
@@ -41,5 +51,5 @@ export const useArticleStore = defineStore('articles', () => {
         }
     }
 
-    return { articles, userArticles, searchArticles };
+    return { articles, metadata, queryArticles, searchArticles };
 });
