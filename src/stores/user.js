@@ -1,10 +1,10 @@
-import { ref, computed } from 'vue';
 import { defineStore } from 'pinia';
 
 import { instance } from '../api/instance';
+import { useLocalStorage } from '../composables/storage';
 
 export const useUserStore = defineStore('user', () => {
-    const user = ref(null);
+    const user = useLocalStorage('user');
 
     async function login(email, password) {
         if (user === null) return;

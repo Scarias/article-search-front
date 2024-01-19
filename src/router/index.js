@@ -12,6 +12,12 @@ const routes = [
     {
         path: '/',
         component: pages.Home,
+        beforeEnter: (to, _) => {
+            const user = localStorage.getItem('user');
+            if (!user && to.name !== 'login' ) {
+                return { name: 'login' };
+            }
+        },
     },
     {
         path: '/auth',
