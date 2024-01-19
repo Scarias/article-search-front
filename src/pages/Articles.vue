@@ -19,15 +19,15 @@ onBeforeRouteUpdate(async (to, _) => {
 </script>
 
 <template>
-    <section class="grid grid-rows-12 grid-cols-1 h-screen">
+    <section class="flex flex-col items-center h-screen">
         <nav-bar title="Artículos" />
-        <div v-if="articleStore.articles.length <= 0" class="flex flex-col row-span-10 justify-center items-center py-20 px-4 gap-4">
+        <div v-if="articleStore.articles.length <= 0" class="flex flex-col row-span-10 justify-center items-center py-20 px-4 gap-4 mt-navbar">
             <span class="material-symbols-outlined text-primary text-6xl">
                 stack
             </span>
             <p class="text-dark text-center">Aún no hay artículos... ¡Sé el primero!</p>
         </div>
-        <div v-else class="grid grid-cols-1 row-span-10 overflow-y-scroll justify-items-center p-4 gap-4 md:gap-8 md:p-8">
+        <div v-else class="grid grid-cols-1 row-span-10 h-full overflow-y-scroll justify-items-center p-4 gap-4 my-navbar md:gap-8 md:p-8">
             <article-element
                 v-for="article in articleStore.articles"
                 :key="`article-${article.id}`"

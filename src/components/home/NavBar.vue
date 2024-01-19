@@ -7,7 +7,7 @@ defineProps({
 </script>
 
 <template>
-    <header class="flex items-center shadow-md bg-background">
+    <header class="absolute inset-x-0 h-navbar flex items-center shadow-md bg-background">
         <router-link class="m-3" to="/dashboard">
             <img src="/logo.svg" alt="Neering Logo">
         </router-link>

@@ -6,7 +6,7 @@ const articleStore = useArticleStore();
 </script>
 
 <template>
-    <footer v-if="articleStore.metadata" class="flex flex-wrap justify-center items-center p-2 gap-3 bg-background">
+    <footer v-if="articleStore.metadata" class="fixed inset-x-0 bottom-0 flex flex-wrap justify-center items-center h-navbar p-2 gap-3 bg-background">
         <router-link
             v-for="(link, i) in articleStore.metadata.links.slice(1,-1)"
             :to="`/articles?page=${i+1}`"

@@ -28,6 +28,10 @@ const routes = [
             {
                 path: 'articles',
                 component: pages.Articles,
+            },
+            {
+                path: 'articles/new',
+                component: pages.CreateArticle,
             }
         ],
     },

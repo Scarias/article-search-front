@@ -9,6 +9,9 @@ export default {
   ],
   theme: {
     extend: {
+      spacing: {
+        'navbar': '5rem',
+      },
       colors: {
         'primary': '#730B94',
         'secondary': '#6451A9',
