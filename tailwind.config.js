@@ -15,7 +15,7 @@ export default {
         'tertiary': '#FF6565',
         'white': '#FFFFFF',
         'dark': '#403E45',
-        'background': '#FF6565',
+        'background': '#F8FDFF',
       },
       fontFamily: {
         sans: ['Titillium', ...defaultTheme.fontFamily.sans],
